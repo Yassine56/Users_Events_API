@@ -1,0 +1,25 @@
+version: "3.2"
+
+services:
+  ns8:
+    image: postgres:11-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      # POSTGRES_URL: "postgres://yassine:password123@postgres:5432/ns8"
+      POSTGRES_HOST: ns8
+      POSTGRES_USER: yassine
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: ns8
+  events_users_api:
+    expose:
+      - "5000"
+    depends_on:
+      - ns8
+    container_name: api
+    build: .
+    ports:
+      - "127.0.0.1:5000:5000"
+    volumes:
+      - ./:/opt/app:rw
+      - /opt/app/node_modules
