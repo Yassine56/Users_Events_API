@@ -1,21 +1,20 @@
 version: "3.2"
 
 services:
-  ns8:
+  test:
     image: postgres:11-alpine
     ports:
       - "5432:5432"
     environment:
-      # POSTGRES_URL: "postgres://yassine:password123@postgres:5432/ns8"
-      POSTGRES_HOST: ns8
+      POSTGRES_HOST: test
       POSTGRES_USER: yassine
       POSTGRES_PASSWORD: password123
-      POSTGRES_DB: ns8
+      POSTGRES_DB: test
   events_users_api:
     expose:
       - "5000"
     depends_on:
-      - ns8
+      - test
     container_name: api
     build: .
     ports:
