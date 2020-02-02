@@ -13,7 +13,8 @@ router.get("/", async (req: Request, res: Response) => {
           email TEXT,
           password TEXT,
           phone_number TEXT,
-          created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+          created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+          CONSTRAINT UC_User UNIQUE (email)
         );
         CREATE TABLE IF NOT EXISTS events  (
             id serial PRIMARY KEY,

@@ -4,11 +4,20 @@ import EventModule from "../modules/event/EventModule";
 export class EventController {
   static async getAllEvents(req: Request, res: Response) {
     try {
-      console.log(`user.routes.get.allEvents - attempting to get all events`);
-      const event = await new EventModule().fetchAll();
+      const user_id = req.query.user_id;
+      if (!user_id) {
+        console.log(`user.routes.get.allEvents - attempting to get all events`);
+        const events = await new EventModule().fetchAll();
+        return res.status(200).json({
+          success: true,
+          response: events
+        });
+      }
+      console.log(`user.routes.get.allEvents - attempting to get all events for user (id: ${user_id})`);
+      const events = await new EventModule().fetchByQuery({ user_id });
       return res.status(200).json({
         success: true,
-        response: event
+        response: events
       });
     } catch (err) {
       return res.status(500).json({
@@ -55,29 +64,6 @@ export class EventController {
       return res.status(200).json({
         success: true,
         response: eventAdded
-      });
-    } catch (err) {
-      return res.status(500).json({
-        success: false,
-        response: err
-      });
-    }
-  }
-  static async getEventByUserId(req: Request, res: Response) {
-    try {
-      console.log(`event.routes.get - attempting to get events by (user_id: ${req.params.user_id})`);
-      const user_id = req.params.user_id;
-      if (!user_id) {
-        return res.status(400).json({
-          success: false,
-          response: "Invalid Request"
-        });
-      }
-
-      const events = await new EventModule().fetchByQuery({ user_id });
-      return res.status(200).json({
-        success: true,
-        response: events
       });
     } catch (err) {
       return res.status(500).json({
