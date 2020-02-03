@@ -34,6 +34,10 @@ This project is built using Node.js/TypeScript with Express, and data is stored 
 
 - Retrieves the event with the given identifier
 
+# GET /events?user_id=[id]
+
+- Retrieves the events with the given user identifier
+
 ## Installation
 
 Navigate to the project directory and :
@@ -64,3 +68,5 @@ This will create the users and events tables on the database.
 
 * Better error management can be suggested as improvement
 * Response generation can also be standardized
+* Validations around requests can be normalized and seperated from the controllers layer. they can be called within a middleware at the routes level.
+* Database errors should handled and surfaced with a custom error message/status/data
