@@ -40,11 +40,23 @@ export class UserController {
       });
     }
   }
+  // static validateNumber = (inputtxt: string) => {
+  //   var phoneno = /^\(?([0-9]{3})\)?[-]?([0-9]{3})[-]?([0-9]{4})$/;
+  //   const valide = inputtxt.match(phoneno);
+  //   console.log("valdie,", valide);
+  //   return valide && valide.length;
+  // };
   static async CreateUser(req: Request, res: Response) {
     try {
       console.log(`user.routes.create.user - attempting to create a new user (email: ${req.body.email})`);
       const { email, password, phone_number } = req.body;
-      if (!email || !password || !phone_number) {
+      const phoneno = /^\(?([0-9]{3})\)?[-]([0-9]{3})[-]([0-9]{4})$/;
+      const validPhone = phone_number.match(phoneno);
+      if (!email || !password || !phone_number || !validPhone) {
+        console.log(
+          `user.routes.create.user - attempting to create a new user (email: ${req.body.email}) status:400`
+        );
+        console.log("validPhone", validPhone);
         return res.status(400).json({
           success: false,
           response: "Invalid Request"
@@ -52,11 +64,17 @@ export class UserController {
       }
       const user = { email, password, phone_number } as User;
       const userAdded = await new UserModule().add(user);
+      console.log(
+        `user.routes.create.user - attempting to create a new user (email: ${req.body.email}) status:200`
+      );
       return res.status(200).json({
         success: true,
         response: userAdded
       });
     } catch (err) {
+      console.log(
+        `user.routes.create.user - attempting to create a new user (email: ${req.body.email}) status:500`
+      );
       return res.status(500).json({
         success: false,
         response: err
@@ -68,7 +86,9 @@ export class UserController {
       console.log(`user.routes.update.user - attempting to update a user (id: ${req.params.user_id})`);
       const { user_id } = req.params;
       const { email, password, phone_number } = req.body;
-      if ((!user_id && !email) || !password || !phone_number) {
+      const phoneno = /^\(?([0-9]{3})\)?[-]([0-9]{3})[-]([0-9]{4})$/;
+      const validPhone = phone_number && phone_number.match(phoneno);
+      if ((!user_id && !email) || (!password && !phone_number) || (phone_number && !validPhone)) {
         return res.status(400).json({
           success: false,
           response: "Invalid Request"
