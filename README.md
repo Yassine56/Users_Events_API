@@ -18,7 +18,7 @@ This project is built using Node.js/TypeScript with Express, and data is stored 
             "id": 1,
             "email": "test@test.com",
             "password": "2sdsd",
-            "phone_number": "23324234234",
+            "phone_number": "233-242-4234",
             "created_at": "2020-01-31T22:11:45.983Z"
             }
         ]
