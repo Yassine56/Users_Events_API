@@ -4,7 +4,7 @@ This project is built using Node.js/TypeScript with Express, and data is stored 
 
 ## API Documentation
 
-# GET /users
+# GET api/users
 
 - Lists all users
 - Response:
@@ -26,19 +26,29 @@ This project is built using Node.js/TypeScript with Express, and data is stored 
 }
 ```
 
-# GET /users/[id]
+# GET api/users/[id]
 
 - Retrieves the user with the given identifier.
 
-# GET /events/[id]
+# POST api/users/
+
+- Creates a user with the given body.
+
+# GET api/events/[id]
 
 - Retrieves the event with the given identifier
 
-# GET /events?user_id=[id]
+# GET api/events?user_id=[id]
 
 - Retrieves the events with the given user identifier
 
-## Installation
+# POST api/events
+
+- Creates an event with the given body.
+
+## SETUP
+
+# Prefered setup
 
 Navigate to the project directory and :
 
@@ -53,6 +63,56 @@ $ 127.0.0.1:5000/setup
 ```
 
 This will create the users and events tables on the database.
+
+# Other setup
+
+Might be disfuncional because of the existing knex migrations.
+
+# Setup PostgreSQL user & database using psql
+
+Open psql shell:
+
+#### MacOs
+
+```
+psql postgres
+```
+
+#### Ubuntu
+
+```
+sudo -u postgres psql
+```
+
+In psql shell, execute following commands:
+
+```
+CREATE DATABASE test;
+CREATE USER yassine WITH ENCRYPTED PASSWORD 'password123';
+GRANT ALL PRIVILEGES ON DATABASE test TO yassine;
+\q
+```
+
+then on your terminal, navigate to your project directory and :
+
+```
+npm run migrate:latest
+```
+
+This will create the necessary tables.
+Now you can:
+
+```
+npm run watch
+```
+
+or
+
+```
+npm run server
+```
+
+To run the server
 
 ## ASSUMPTIONS / IMPROVEMENTS AND/OR OPEN QUESTIONS
 
